@@ -1,6 +1,8 @@
 import {useEffect, useState} from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import useCart from '../../hooks/useCart';
+import { formatPrice } from '../../helpers';
 import Spinner from '../Spinner';
 
 function ProductShow() 
@@ -8,19 +10,28 @@ function ProductShow()
   const { id } = useParams();
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(false);
+  const [quantity, setQuantity] = useState(1);
+  const [total, setTotal] = useState(0);
+
+  const { addProduct } = useCart();
   
   useEffect(() =>
   {
     const getProducto = async () =>
     {
       setLoading(true);
-      const url = `http://localhost:8000/api/product/${id}`;
 
-      const result = await axios.get(url);
-
-      if(result.data.length > 0)
+      if(id)
       {
-        setProduct(result.data[0]);
+        const url = `http://localhost:8000/api/product/${id}`;
+
+        const result = await axios.get(url);
+
+        if(result.data.length > 0)
+        {
+          setProduct(result.data[0]);
+          setTotal(result.data[0].price);
+        }
       }
 
       setLoading(false);
@@ -30,6 +41,29 @@ function ProductShow()
   }, 
   []);
 
+  useEffect(() =>
+  {
+    const newTotal = product.price * quantity;
+    setTotal(newTotal);
+  },
+  [quantity])
+
+  const append = () =>
+  {
+    setQuantity(quantity + 1);
+  }
+
+  const substract = () =>
+  {
+    if(quantity <= 1) return;
+    setQuantity(quantity - 1);
+  }
+
+  const addToCart = () =>
+  {
+    addProduct(product);
+  }
+
   if(loading) return(<Spinner/>);
 
   return (
@@ -38,14 +72,46 @@ function ProductShow()
         !loading ?
         (
           <>
-            <h2 className='text-center text-4xl font-bold my-10'>Product: <span className='text-indigo-800'>{product.name}</span></h2>
+            <div className='container mx-auto flex flex-col md:flex-row gap-6 mt-20 items-center'>
+              <div className='w-full md:w-1/3 flex justify-center'>
+                {
+                  product.image ? 
+                  (
+                    <img src={`http://localhost:8000/storage/${product.image}`} alt="product image" className="object-cover h-full w-full rounded"/>
+                  ):null
+                }
+              </div>
+            
 
-            <div className='max-w-4xl mx-auto max-h-96 overflow-hidden'>
-              <img src={`http://localhost:8000/storage/${product.image}`} alt="product image" className="w-full object-center h-full object-cover"/>
-            </div>
+              <div>
+                <h2 className='text-4xl font-black uppercase text-indigo-800'>{product.name}</h2>
 
-            <div className='my-4'>
-              <p className='text-xl'>{product.description}</p>
+                <p className='text-xl text-indigo-800 my-2 uppercase font-extrabold mt-6'>Description: <span className='text-black'>{product.description}</span></p>
+
+                <p className='text-xl text-indigo-800 my-2 uppercase font-extrabold'>Sku: <span className='text-black'>{product.description}</span></p>
+
+                <p className='text-xl text-indigo-800 my-2 uppercase font-extrabold'>Price: <span className='text-black'>{formatPrice(product.price)}</span></p>
+                
+                <div className='mt-6 flex gap-4 items-center'>
+                  <button className='bg-indigo-800 rounded-full items-center flex justify-center p-2 hover:bg-yellow-500 transition-colors' onClick={substract}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-white">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </button>
+
+                  <p className='text-4xl font-black text-ind-800igo'>{quantity}</p>
+
+                  <button className='bg-indigo-800 rounded-full items-center flex justify-center p-2 hover:bg-yellow-500 transition-colors' >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-white" onClick={append}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </button>
+                </div>
+
+                <div className='text-4xl font-black text-in my-4'>{formatPrice(total)}</div>
+
+                <button className='bg-indigo-800 text-xl rounded-lg px-4 py-2 hover:bg-yellow-500 hover:text-black text-white transition-colors uppercase font-bold' onClick={addToCart}>Add to Cart</button>
+              </div>
             </div>
           </>
         )
