@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function ProductCard({product}) 
 {
@@ -14,7 +15,7 @@ function ProductCard({product})
       </div>
 
       <div className='py-4 px-6 flex justify-center'>
-        <a href={`/product/${id}`} className='py-2 px-4 bg-indigo-800 text-white text-center rounded text-sm hover:bg-yellow-600 transition-colors uppercase font-bold'>See Product</a>
+        <Link to={`/product/${id}`} className='py-2 px-4 bg-indigo-800 text-white text-center rounded text-sm hover:bg-yellow-600 transition-colors uppercase font-bold'>See Product</Link>
       </div>
     </div>
   )

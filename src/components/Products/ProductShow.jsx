@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import useCart from '../../hooks/useCart';
 import { formatPrice } from '../../helpers';
 import Spinner from '../Spinner';
@@ -14,6 +15,8 @@ function ProductShow()
   const [total, setTotal] = useState(0);
 
   const { addProduct } = useCart();
+
+  const navigate = useNavigate();
   
   useEffect(() =>
   {
@@ -61,7 +64,15 @@ function ProductShow()
 
   const addToCart = () =>
   {
-    addProduct(product);
+    addProduct(product, quantity);
+
+    Swal.fire(
+      'Success!',
+      'Product Added!',
+      'success'
+    )
+
+    navigate("/products");
   }
 
   if(loading) return(<Spinner/>);
@@ -101,8 +112,8 @@ function ProductShow()
 
                   <p className='text-4xl font-black text-ind-800igo'>{quantity}</p>
 
-                  <button className='bg-indigo-800 rounded-full items-center flex justify-center p-2 hover:bg-yellow-500 transition-colors' >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-white" onClick={append}>
+                  <button className='bg-indigo-800 rounded-full items-center flex justify-center p-2 hover:bg-yellow-500 transition-colors' onClick={append}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-white">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </button>
