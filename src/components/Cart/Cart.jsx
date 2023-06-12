@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 
 function Cart() 
 {
-  const { cart, deleteProduct } = useCart();
+  const { cart, addProduct, deleteProduct } = useCart();
   const [total, setTotal] = useState(0);
 
   useEffect(() =>
@@ -43,6 +43,29 @@ function Cart()
     })
   };
 
+  const editProduct = (id, type) =>
+  {
+    const product = cart.filter(productState => productState.id === id);
+    if(product.length > 0)
+    {
+      if(type)
+      {
+        const newQunatity = product[0].quantity + 1;
+        addProduct(product[0], newQunatity);
+      }
+      else
+      {
+        const newQunatity = product[0].quantity > 1 ? product[0].quantity - 1 : 1;
+        addProduct(product[0], newQunatity);
+      }
+    }
+  }
+
+  const handleCompleteOrder = () => 
+  {
+    console.log(cart);
+  }
+
   return (
     <main className='container mx-auto my-10 px-6'>
         {
@@ -71,7 +94,7 @@ function Cart()
                       </div>
 
                       <div className='w-full md:w-1/5 flex flex-row gap-4 items-center justify-center'>
-                        <button className='bg-indigo-800 rounded-full items-center flex justify-center p-2 hover:bg-yellow-500 transition-colors' onClick={() => substract(product.id)}>
+                        <button className='bg-indigo-800 rounded-full items-center flex justify-center p-2 hover:bg-yellow-500 transition-colors' onClick={() => editProduct(product.id, false)}>
                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-white">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                           </svg>
@@ -79,7 +102,7 @@ function Cart()
 
                         <p className='text-4xl font-black text-ind-800igo'>{product.quantity}</p>
 
-                        <button className='bg-indigo-800 rounded-full items-center flex justify-center p-2 hover:bg-yellow-500 transition-colors'>
+                        <button className='bg-indigo-800 rounded-full items-center flex justify-center p-2 hover:bg-yellow-500 transition-colors' onClick={() => editProduct(product.id, true)}>
                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-white">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                           </svg>
@@ -102,7 +125,7 @@ function Cart()
                     <p className='text-indigo-800 text-center font-black text-2xl'>Total: {formatPrice(total)}</p>
                   </div>
 
-                  <button className='px-6 py-4 bg-indigo-800 rounded text-yellow-500 text-center font-black text-2xl uppercase hover:bg-yellow-500 hover:text-indigo-800 cursor-pointer transition-colors'>Complete Order</button>
+                  <button className='px-6 py-4 bg-indigo-800 rounded text-yellow-500 text-center font-black text-2xl uppercase hover:bg-yellow-500 hover:text-indigo-800 cursor-pointer transition-colors' onClick={handleCompleteOrder}>Complete Order</button>
                 </div>
               </div>
             </>
