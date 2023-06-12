@@ -17,7 +17,18 @@ function CartProvider({children})
       quantity,
       image,
     }
-    setCart([...cart, productObject]);
+
+    const edit = cart.some(productState => productState.id === id);
+    
+    if(edit)
+    {
+      const newCart = cart.map(productState => productState.id === id ? productObject : productState);
+      setCart(newCart);
+    }
+    else
+    {
+      setCart([...cart, productObject]);
+    }
   }
 
   const deleteProduct = id =>

@@ -13,8 +13,9 @@ function ProductShow()
   const [loading, setLoading] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [total, setTotal] = useState(0);
+  const [edit, setEdit] = useState(false);
 
-  const { addProduct } = useCart();
+  const { cart, addProduct } = useCart();
 
   const navigate = useNavigate();
   
@@ -46,10 +47,25 @@ function ProductShow()
 
   useEffect(() =>
   {
+    if(cart.length > 0)
+    {
+      const productCart = cart.filter(productState => productState.id === product.id);
+      
+      if(productCart.length > 0)
+      {
+        setQuantity(productCart[0].quantity);
+        setEdit(true);
+      }
+    }
+  },
+  [product]);
+
+  useEffect(() =>
+  {
     const newTotal = product.price * quantity;
     setTotal(newTotal);
   },
-  [quantity])
+  [quantity, product])
 
   const append = () =>
   {
@@ -121,7 +137,7 @@ function ProductShow()
 
                 <div className='text-4xl font-black text-in my-4'>{formatPrice(total)}</div>
 
-                <button className='bg-indigo-800 text-xl rounded-lg px-4 py-2 hover:bg-yellow-500 hover:text-black text-white transition-colors uppercase font-bold' onClick={addToCart}>Add to Cart</button>
+                <button className='bg-indigo-800 text-xl rounded-lg px-4 py-2 hover:bg-yellow-500 hover:text-black text-white transition-colors uppercase font-bold' onClick={addToCart}>{edit ? 'Save Changes' : 'Add to Cart'}</button>
               </div>
             </div>
           </>
