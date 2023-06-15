@@ -11,6 +11,7 @@ function ProductShow()
   const { id } = useParams();
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(false);
+  const [stock, setStock] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [total, setTotal] = useState(0);
   const [edit, setEdit] = useState(false);
@@ -34,6 +35,7 @@ function ProductShow()
         if(result.data.length > 0)
         {
           setProduct(result.data[0]);
+          setStock(result.data[0].stock);
           setTotal(result.data[0].price);
         }
       }
@@ -69,7 +71,10 @@ function ProductShow()
 
   const append = () =>
   {
-    setQuantity(quantity + 1);
+    if(quantity < stock)
+    {
+      setQuantity(quantity + 1);
+    }
   }
 
   const substract = () =>
@@ -115,7 +120,9 @@ function ProductShow()
 
                 <p className='text-xl text-indigo-800 my-2 uppercase font-extrabold mt-6'>Description: <span className='text-black'>{product.description}</span></p>
 
-                <p className='text-xl text-indigo-800 my-2 uppercase font-extrabold'>Sku: <span className='text-black'>{product.description}</span></p>
+                <p className='text-xl text-indigo-800 my-2 uppercase font-extrabold'>Sku: <span className='text-black'>{product.sku}</span></p>
+
+                <p className='text-xl text-indigo-800 my-2 uppercase font-extrabold'>Stock: <span className='text-black'>{product.stock}</span></p>
 
                 <p className='text-xl text-indigo-800 my-2 uppercase font-extrabold'>Price: <span className='text-black'>{formatPrice(product.price)}</span></p>
                 
