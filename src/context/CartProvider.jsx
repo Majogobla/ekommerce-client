@@ -42,6 +42,7 @@ function CartProvider({children})
       value={
         {
           cart,
+          setCart,
           addProduct,
           deleteProduct,
         }

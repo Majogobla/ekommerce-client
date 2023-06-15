@@ -11,7 +11,7 @@ function NotAuthenticated() {
           <nav className='flex flex-col gap-4 md:flex-row mt-6 md:mt-0'>
             <Link to="/products" className='text-white uppercase py-1 px-3 hover:bg-gray-400 hover:text-black cursor-pointer transition-colors font-bold rounded text-center'>Products</Link>
 
-            <Link to="/" className='text-white uppercase py-1 px-3 hover:bg-gray-400 hover:text-black cursor-pointer transition-colors font-bold rounded text-center'>Orders</Link>
+            <Link to="/orders" className='text-white uppercase py-1 px-3 hover:bg-gray-400 hover:text-black cursor-pointer transition-colors font-bold rounded text-center'>Orders</Link>
 
             <Link to="#" className='text-white uppercase py-1 px-3 hover:bg-gray-400 hover:text-black cursor-pointer transition-colors font-bold rounded text-center'>Contact Us</Link>
 

@@ -1,12 +1,16 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import useCart from '../../hooks/useCart';
 import { formatPrice } from '../../helpers';
 import Swal from 'sweetalert2';
+import axios from 'axios';
 
 function Cart() 
 {
-  const { cart, addProduct, deleteProduct } = useCart();
+  const { cart, setCart, addProduct, deleteProduct } = useCart();
   const [total, setTotal] = useState(0);
+
+  const navigate = useNavigate();
 
   useEffect(() =>
   {
@@ -61,9 +65,34 @@ function Cart()
     }
   }
 
-  const handleCompleteOrder = () => 
+  const handleCompleteOrder = async () => 
   {
-    console.log(cart);
+    const newOrder =
+    {
+      total,
+      products: cart.map(product => ({id: product.id, quantity: product.quantity})),
+    } 
+
+    try 
+    {
+      const url = 'http://localhost:8000/api/orders';
+      await axios.post(url, newOrder);
+
+      Swal.fire(
+        'Order completed!',
+        'Your orders has been sent!',
+        'success'
+      );
+      
+      setCart([]);
+      setTotal(0);
+
+      navigate('/products');
+    } 
+    catch (error) 
+    {
+      console.log(error);  
+    }
   }
 
   return (
