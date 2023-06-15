@@ -19,11 +19,6 @@ function App()
             <Route path="/product/:id" element={<ProductShow/>} />
             <Route path="/cart" element={<Cart/>} />
             <Route path="/orders" element={<OrdersIndex/>} />
-
-            {/* <Route index element={<Home />} />
-            <Route path="blogs" element={<Blogs />} />
-            <Route path="contact" element={<Contact />} />
-            <Route path="*" element={<NoPage />} /> */}
           </Route>
         </Routes>
       </CartProvider>
