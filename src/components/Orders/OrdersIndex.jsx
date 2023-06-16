@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { formatPrice } from "../../helpers";
 import axios from "axios";
+import OrderCard from "./OrderCard";
 
 function OrdersIndex() 
 {
@@ -27,30 +27,18 @@ function OrdersIndex()
 
   return (
     <main className='container mx-auto my-10 px-6'>
-      {
-        orders.map(order =>
-          (
-            <div key={order.id} className="border p-2 m-2">
-              <p>{formatPrice(order.total)}</p>
-
-              <p>{order.order_sent}</p>
-
-              <p>Porducts: </p>
-
-              {
-                order.products.map(product => 
-                (
-                  <div key={product.id} className="flex gap-4">
-                    <p>{product.name}</p>
-                    <p>{product.pivot.quantity}</p>
-                    <p>{product.price}</p>
-                  </div>
-                ))
-              }
-            </div>
-          )  
-        )
-      }
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+        {
+          orders.map(order =>
+            (
+              <OrderCard
+                key={order.id}
+                order={order}
+              />
+            )  
+          )
+        }
+      </div>
     </main>
   )
 }

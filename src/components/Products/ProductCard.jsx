@@ -9,6 +9,7 @@ function ProductCard({product})
       <div className='h-40 w-full overflow-hidden'>
         <img className="w-full object-center h-full object-cover" src={`http://localhost:8000/storage/${image}`} alt="Sunset in the mountains"/>
       </div>
+      
       <div className="px-6 py-4">
         <div className="font-bold text-xl mb-2">{name}</div>
         <p className="text-gray-700 text-base">{description}</p>
