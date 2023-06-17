@@ -7,8 +7,8 @@ import axios from "axios";
 import ProductCard from "../Products/ProductCard";
 import { Categories } from "./Categories";
 //route for images
-import banner1 from "../../../public/img/fondo1.jpg";
-import banner2 from "../../../public/img/fondo2.jpg";
+import banner1 from "../../../src/img/fondo1.jpg";
+import banner2 from "../../../src/img/fondo2.jpg";
 
 export const IndexView = () => {
   const [product, setProduct] = useState([]);
@@ -28,54 +28,34 @@ export const IndexView = () => {
     fetchData();
   }, []);
 
-  const maxProductToShow = 4;
+  const maxProductToShow = 8;
   const productsToShow = product.slice(0, maxProductToShow);
   const carouselSettings = {
-    dots: false,
-    infinite: true,
+    dots: true,
     speed: 500,
-    slidesToShow: 4, 
+    slidesToShow: 4,
     slidesToScroll: 1,
-    responsive: [
-      {
-        breakpoint: 640,
-        settings: {
-          slidesToShow: 1, // Cambiar a mostrar solo 1 producto en pantallas pequeñas
-          slidesToScroll: 1,
-          infinite: true,
-          dots: false,
-          arrows: false,
-        },
-      },
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3, // Mostrar 3 productos en pantallas medianas
-          slidesToScroll: 1,
-          infinite: true,
-          dots: false,
-          arrows: false,
-        },
-      },
-    ],
   };
 
   const renderProductCarouselItems = () => {
     const items = [];
-  
-    for (let i = 0; i < productsToShow.length; i++) {
-      const product = productsToShow[i];
-  
+
+    for (let i = 0; i < productsToShow.length; i += 4) {
+      const productGroup = productsToShow.slice(i, i + 4);
+
+      const productGroupItems = productGroup.map((product) => (
+        <ProductCard key={product.id} product={product} />
+      ));
+
       items.push(
-        <div key={`product-${i}`} className="px-2">
-          <ProductCard key={product.id} product={product} />
+        <div key={`group-${i}`}>
+          <div className="grid grid-cols-4 gap-4">{productGroupItems}</div>
         </div>
       );
     }
-  
+
     return items;
   };
-
   return (
     <>
       <div className="bg-indigo-800 py-4">
@@ -128,48 +108,73 @@ export const IndexView = () => {
           </nav>
         </div>
       </div>
-      <div className="mt-0">
+      <div className="relative mt-0">
         <Carousel
           autoPlay
           infiniteLoop
           showThumbs={false}
           showStatus={false}
-          interval={3000}
+          interval={4000}
         >
           <div>
             <img
               src={banner1}
               alt="Banner 1"
               className="w-full h-auto"
-              style={{ maxHeight: "600px" }}
+              style={{ maxHeight: "500px" }}
             />
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-indigo-800 text-3xl font-bold">
+              Welcome to Ekommerce! <br />
+              <p className="text-xl">
+              Look at all our products 
+              </p>
+              <Link to={'/products'}>
+              <button className="bg-blue-500 text-white py-3 px-4 rounded mt-4">
+                Go to Products
+              </button>
+              </Link>
+            </div>
           </div>
           <div>
             <img
               src={banner2}
               alt="Banner 2"
               className="w-full h-auto"
-              style={{ maxHeight: "600px" }}
+              style={{ maxHeight: "500px" }}
             />
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-indigo-800 text-3xl font-bold">
+              Welcome to Ekommerce! <br />
+              <p className="text-xl">
+              Look at all our products 
+              </p>
+              <Link to={'/products'}>
+              <button className="bg-blue-500 text-white py-3 px-4 rounded mt-4">
+                Go to Products
+              </button>
+              </Link>
+            </div>
           </div>
         </Carousel>
       </div>
 
-      <div className="bg-gray-200 py-8">
+      <div className="bg-indigo-100 py-8">
         <div className="container mx-auto px-4">
-          <h2 className="text-2xl font-bold mb-4">Welcome to Ekommerce!</h2>
-          <p className="text-lg text-gray-800 mb-6">
+          <h2 className=" text-center text-3xl font-bold mb-4">
+            Welcome to Ekommerce!
+          </h2>
+
+          <p className="text-xl bg-white p-2 rounded font-bold text-gray-800 mb-6 text-center ">
             Discover the best products and place your orders easily.
           </p>
 
           <div className="flex flex-col md:flex-row gap-4">
-            <div className="bg-white p-6 rounded shadow md:w-1/6">
+            <div className="bg-white p-6 rounded shadow md:w-1/2">
               <h3 className="text-xl font-bold mb-2">Categories</h3>
               <div className="">
-                <Categories categories={categories}/>
+                <Categories autoPlay infiniteLoop categories={categories} />
               </div>
             </div>
-            
+
             <div className="bg-white p-6 rounded shadow md:w-3/2">
               <h3 className="text-xl font-bold mb-2">Featured Products</h3>
               <div className="mt-0">
@@ -178,12 +183,11 @@ export const IndexView = () => {
                 </Carousel>
               </div>
             </div>
-
           </div>
-            <div className="mt-5 bg-white p-6 rounded shadow">
+          {/* <div className="mt-5 bg-white p-6 rounded shadow">
               <h3 className="text-xl font-bold mb-2">New Arrivals</h3>
-              {/* Add your new arrival products here */}
-            </div>
+              
+            </div> */}
         </div>
       </div>
     </>

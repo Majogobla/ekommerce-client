@@ -21,7 +21,7 @@ function ProductsIndex()
 
   return (
     <div className='container mx-auto px-4'>
-      <h2 className=' text-center text-4xl uppercase font-extrabold my-8'>Productos</h2>
+      <h2 className=' text-center text-4xl uppercase font-extrabold my-8'>Products</h2>
       <div className='grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-8 justify-center'>
         {
           products.map(product =>
