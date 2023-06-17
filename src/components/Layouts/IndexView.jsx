@@ -1,51 +1,78 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import axios from "axios";
+
+import ProductCard from "../Products/ProductCard";
+import { Categories } from "./Categories";
+//route for images
 import banner1 from "../../../public/img/fondo1.jpg";
 import banner2 from "../../../public/img/fondo2.jpg";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import ProductCard from "../Products/ProductCard";
 
 export const IndexView = () => {
   const [product, setProduct] = useState([]);
+  const [categories, setCategories] = useState([]);
   useEffect(() => {
-    const getProduct = async () => {
-      const url = "http://localhost:8000/api/products";
-      const result = await axios.get(url);
-      setProduct(result.data);
+    const fetchData = async () => {
+      const ProductUrl = "http://localhost:8000/api/products";
+      const CategoriesUrl = "http://localhost:8000/api/categories";
+
+      const [productResp, categoriesResp] = await Promise.all([
+        axios.get(ProductUrl),
+        axios.get(CategoriesUrl),
+      ]);
+      setProduct(productResp.data);
+      setCategories(categoriesResp.data);
     };
-    getProduct();
+    fetchData();
   }, []);
 
-  const maxProductToShow = 8;
+  const maxProductToShow = 4;
   const productsToShow = product.slice(0, maxProductToShow);
   const carouselSettings = {
-    showThumbs: false,
-    showStatus: false,
-    interval: 3000,
-    stopOnHover: true,
-    transitionTime: 500,
-    swipeScrollTolerance: 50,
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4, 
+    slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 640,
+        settings: {
+          slidesToShow: 1, // Cambiar a mostrar solo 1 producto en pantallas pequeñas
+          slidesToScroll: 1,
+          infinite: true,
+          dots: false,
+          arrows: false,
+        },
+      },
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3, // Mostrar 3 productos en pantallas medianas
+          slidesToScroll: 1,
+          infinite: true,
+          dots: false,
+          arrows: false,
+        },
+      },
+    ],
   };
-  
+
   const renderProductCarouselItems = () => {
     const items = [];
-
-    for (let i = 0; i < productsToShow.length; i += 4) {
-      const productGroup = productsToShow.slice(i, i + 4);
-
-      const productGroupItems = productGroup.map((product) => (
-        <ProductCard key={product.id} product={product} />
-      ));
-
+  
+    for (let i = 0; i < productsToShow.length; i++) {
+      const product = productsToShow[i];
+  
       items.push(
-        <div key={`group-${i}`}>
-          <div className="grid grid-cols-4 gap-4">{productGroupItems}</div>
+        <div key={`product-${i}`} className="px-2">
+          <ProductCard key={product.id} product={product} />
         </div>
       );
     }
-
+  
     return items;
   };
 
@@ -135,19 +162,28 @@ export const IndexView = () => {
             Discover the best products and place your orders easily.
           </p>
 
-          <div className="flex flex-col gap-4">
-            <div className="bg-white p-6 rounded shadow">
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="bg-white p-6 rounded shadow md:w-1/6">
+              <h3 className="text-xl font-bold mb-2">Categories</h3>
+              <div className="">
+                <Categories categories={categories}/>
+              </div>
+            </div>
+            
+            <div className="bg-white p-6 rounded shadow md:w-3/2">
               <h3 className="text-xl font-bold mb-2">Featured Products</h3>
               <div className="mt-0">
-              <Carousel {...carouselSettings}>{renderProductCarouselItems()}</Carousel>
+                <Carousel {...carouselSettings}>
+                  {renderProductCarouselItems()}
+                </Carousel>
               </div>
             </div>
 
-            <div className="bg-white p-6 rounded shadow">
+          </div>
+            <div className="mt-5 bg-white p-6 rounded shadow">
               <h3 className="text-xl font-bold mb-2">New Arrivals</h3>
               {/* Add your new arrival products here */}
             </div>
-          </div>
         </div>
       </div>
     </>

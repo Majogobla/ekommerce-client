@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -5,14 +6,14 @@ function ProductCard({product})
 {
   const { id, name, price, brand, image, sku, description } = product;
   return (
-    <div className="max-w-sm rounded overflow-hidden shadow-lg">
+    <div className="max-w-sm rounded overflow-hidden shadow-lg flex flex-col justify-between h-full">
       <div className='h-40 w-full overflow-hidden'>
         <img className="w-full object-center h-full object-cover" src={`http://localhost:8000/storage/${image}`} alt="Sunset in the mountains"/>
       </div>
       
-      <div className="px-6 py-4">
+      <div className="px-6 py-3">
         <div className="font-bold text-xl mb-2">{name}</div>
-        <p className="text-gray-700 text-base">{description}</p>
+        <p className="text-gray-700 text-base line-clamp-4">{description}</p>
       </div>
 
       <div className='py-4 px-6 flex justify-center'>
