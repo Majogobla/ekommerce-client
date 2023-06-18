@@ -8,7 +8,7 @@ function NotAuthenticated() {
       <div className="bg-indigo-800 py-4">
         <div className="container mx-auto flex flex-col justify-center items-center md:justify-between  md:flex-row">
           <Link to="/">
-            <h1 className=" text-white text-3xl font-bold">Ekommerce</h1>
+            <h1 className=" text-white text-3xl font-bold pl-4">Ekommerce</h1>
           </Link>
 
           <nav className="flex flex-col gap-4 md:flex-row mt-6 md:mt-0">

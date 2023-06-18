@@ -61,7 +61,7 @@ export const IndexView = () => {
       <div className="bg-indigo-800 py-4">
         <div className="container mx-auto flex flex-col justify-center items-center md:justify-between  md:flex-row">
           <Link to="/">
-            <h1 className=" text-white text-3xl font-bold">Ekommerce</h1>
+            <h1 className=" text-white text-3xl font-bold pl-4">Ekommerce</h1>
           </Link>
 
           <nav className="flex flex-col gap-4 md:flex-row mt-6 md:mt-0">
@@ -123,7 +123,7 @@ export const IndexView = () => {
               className="w-full h-auto"
               style={{ maxHeight: "500px" }}
             />
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-indigo-800 text-3xl font-bold">
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-3xl font-bold drop-shadow-lg shadow-black">
               Welcome to Ekommerce! <br />
               <p className="text-xl">
               Look at all our products 
@@ -142,7 +142,7 @@ export const IndexView = () => {
               className="w-full h-auto"
               style={{ maxHeight: "500px" }}
             />
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-indigo-800 text-3xl font-bold">
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-indigo-800 text-3xl font-bold drop-shadow-lg shadow-black">
               Welcome to Ekommerce! <br />
               <p className="text-xl">
               Look at all our products 
