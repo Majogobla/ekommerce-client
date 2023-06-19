@@ -3,7 +3,7 @@ import { formatPrice } from "../../helpers";
 function OrderCard({order}) 
 {
   const {total, order_sent, products, id } = order;
-  console.log(order);
+  
   return (
     <div className="w-full rounded-lg overflow-hidden shadow-lg border-indigo-800 border-2 flex flex-col justify-between">
       <div className="px-6 py-4">

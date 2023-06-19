@@ -7,7 +7,7 @@ function ProductCard({product})
   const { id, name, price, brand, image, sku, description } = product;
   return (
     <div className="max-w-sm rounded overflow-hidden shadow-lg flex flex-col justify-between h-full">
-      <div className='h-40 w-full overflow-hidden'>
+      <div className='h-56 w-full overflow-hidden'>
         <img className="w-full object-center h-full object-cover" src={`http://localhost:8000/storage/${image}`} alt="Sunset in the mountains"/>
       </div>
       
