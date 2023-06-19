@@ -184,10 +184,6 @@ export const IndexView = () => {
               </div>
             </div>
           </div>
-          {/* <div className="mt-5 bg-white p-6 rounded shadow">
-              <h3 className="text-xl font-bold mb-2">New Arrivals</h3>
-              
-            </div> */}
         </div>
       </div>
     </>
