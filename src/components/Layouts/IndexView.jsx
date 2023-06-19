@@ -5,7 +5,8 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import axios from "axios";
 
 import ProductCard from "../Products/ProductCard";
-import { Categories } from "./Categories";
+import CategoiesView from "../Categories/CategoiesView";
+
 //route for images
 import banner1 from "../../../src/img/fondo1.jpg";
 import banner2 from "../../../src/img/fondo2.jpg";
@@ -13,6 +14,10 @@ import banner2 from "../../../src/img/fondo2.jpg";
 export const IndexView = () => {
   const [product, setProduct] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  // eslint-disable-next-line no-unused-vars
+  const [noProductsFound, setNoProductsFound] = useState(false)
+
   useEffect(() => {
     const fetchData = async () => {
       const ProductUrl = "http://localhost:8000/api/products";
@@ -28,16 +33,22 @@ export const IndexView = () => {
     fetchData();
   }, []);
 
-  const maxProductToShow = 8;
-  const productsToShow = product.slice(0, maxProductToShow);
+  const handleCategoryChange = (categoryId) => {
+    setSelectedCategory(categoryId);
+  };
+
   const carouselSettings = {
     dots: true,
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 1,
+    showThumbs: false,
   };
 
   const renderProductCarouselItems = () => {
+    const maxProductToShow = 8;
+    const productsToShow = product.slice(0, maxProductToShow);
+
     const items = [];
 
     for (let i = 0; i < productsToShow.length; i += 4) {
@@ -56,6 +67,19 @@ export const IndexView = () => {
 
     return items;
   };
+
+  useEffect(() => {
+    if(selectedCategory !== null){
+      const filteredProducts = product.filter(
+        (product) => product.category === selectedCategory
+      );
+
+      setNoProductsFound(filteredProducts.length === 0);
+    }
+  
+  }, [selectedCategory,product])
+  
+
   return (
     <>
       <div className="bg-indigo-800 py-4">
@@ -125,13 +149,11 @@ export const IndexView = () => {
             />
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-3xl font-bold drop-shadow-lg shadow-black">
               Welcome to Ekommerce! <br />
-              <p className="text-xl">
-              Look at all our products 
-              </p>
-              <Link to={'/products'}>
-              <button className="bg-blue-500 text-white py-3 px-4 rounded mt-4">
-                Go to Products
-              </button>
+              <p className="text-xl">Look at all our products</p>
+              <Link to={"/products"}>
+                <button className="bg-blue-500 text-white py-3 px-4 rounded mt-4">
+                  Go to Products
+                </button>
               </Link>
             </div>
           </div>
@@ -144,13 +166,11 @@ export const IndexView = () => {
             />
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-indigo-800 text-3xl font-bold drop-shadow-lg shadow-black">
               Welcome to Ekommerce! <br />
-              <p className="text-xl">
-              Look at all our products 
-              </p>
-              <Link to={'/products'}>
-              <button className="bg-blue-500 text-white py-3 px-4 rounded mt-4">
-                Go to Products
-              </button>
+              <p className="text-xl">Look at all our products</p>
+              <Link to={"/products"}>
+                <button className="bg-blue-500 text-white py-3 px-4 rounded mt-4">
+                  Go to Products
+                </button>
               </Link>
             </div>
           </div>
@@ -168,20 +188,52 @@ export const IndexView = () => {
           </p>
 
           <div className="flex flex-col md:flex-row gap-4">
-            <div className="bg-white p-6 rounded shadow md:w-1/2">
+            <div className="bg-white p-6 rounded shadow md:w-1/5">
               <h3 className="text-xl font-bold mb-2">Categories</h3>
-              <div className="">
-                <Categories autoPlay infiniteLoop categories={categories} />
-              </div>
-            </div>
 
-            <div className="bg-white p-6 rounded shadow md:w-3/2">
-              <h3 className="text-xl font-bold mb-2">Featured Products</h3>
-              <div className="mt-0">
-                <Carousel {...carouselSettings}>
-                  {renderProductCarouselItems()}
-                </Carousel>
-              </div>
+              <ul className="flex flex-wrap gap-2">
+                <li
+                  className={`cursor-pointer ${
+                    selectedCategory === null
+                      ? "bg-indigo-800"
+                      : "bg-indigo-600"
+                  } text-white py-1 px-2 rounded`}
+                  onClick={() => handleCategoryChange(null)}
+                >
+                  All
+                </li>
+                {categories.map((category) => (
+                  <li
+                    key={category.id}
+                    className={`cursor-pointer ${
+                      selectedCategory === category.id
+                        ? "bg-indigo-800"
+                        : "bg-indigo-600"
+                    } text-white py-1 px-2 rounded`}
+                    onClick={() => handleCategoryChange(category.id)}
+                  >
+                    {category.name}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="bg-white p-6 rounded shadow md:flex-1">
+              {selectedCategory !== null ? (
+                <CategoiesView
+                  categoryId={selectedCategory}
+                  categories={categories}
+                  products={product}
+                />
+              ) :  (
+                <div className="bg-white p-6 rounded shadow md:w-3/2">
+                  <h3 className="text-xl font-bold mb-2">Featured Products</h3>
+                  <div className="mt-0">
+                    <Carousel {...carouselSettings}>
+                      {renderProductCarouselItems()}
+                    </Carousel>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
