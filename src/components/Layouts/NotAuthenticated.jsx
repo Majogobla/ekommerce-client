@@ -27,7 +27,7 @@ function NotAuthenticated() {
             </Link>
 
             <Link
-              to="#"
+              to="/users"
               className="text-white uppercase py-1 px-3 hover:bg-gray-400 hover:text-black cursor-pointer transition-colors font-bold rounded text-center"
             >
               Contact Us

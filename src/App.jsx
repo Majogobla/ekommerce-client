@@ -7,6 +7,7 @@ import OrdersIndex from "./components/Orders/OrdersIndex";
 
 import { CartProvider } from "./context/CartProvider";
 import { IndexView } from "./components/Layouts/IndexView";
+import UsersView from "./components/Users/UsersView";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/product/:id" element={<ProductShow />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/orders" element={<OrdersIndex />} />
+            <Route path="/users" element={<UsersView/>}/>
           </Route>
         </Routes>
       </CartProvider>

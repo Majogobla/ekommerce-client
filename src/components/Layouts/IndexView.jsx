@@ -104,7 +104,7 @@ export const IndexView = () => {
             </Link>
 
             <Link
-              to="#"
+              to="/users"
               className="text-white uppercase py-1 px-3 hover:bg-gray-400 hover:text-black cursor-pointer transition-colors font-bold rounded text-center"
             >
               Contact Us
@@ -195,8 +195,8 @@ export const IndexView = () => {
                 <li
                   className={`cursor-pointer ${
                     selectedCategory === null
-                      ? "bg-indigo-800"
-                      : "bg-indigo-600"
+                      ? "bg-indigo-800 hover:bg-blue-600 transition-colors"
+                      : "bg-indigo-600 "
                   } text-white py-1 px-2 rounded`}
                   onClick={() => handleCategoryChange(null)}
                 >
@@ -207,7 +207,7 @@ export const IndexView = () => {
                     key={category.id}
                     className={`cursor-pointer ${
                       selectedCategory === category.id
-                        ? "bg-indigo-800"
+                        ? "bg-indigo-800 hover:bg-blue-600 transition-colors"
                         : "bg-indigo-600"
                     } text-white py-1 px-2 rounded`}
                     onClick={() => handleCategoryChange(category.id)}
