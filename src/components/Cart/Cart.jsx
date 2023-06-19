@@ -87,7 +87,7 @@ function Cart()
       setCart([]);
       setTotal(0);
 
-      navigate('/products');
+      navigate('/orders');
     } 
     catch (error) 
     {
