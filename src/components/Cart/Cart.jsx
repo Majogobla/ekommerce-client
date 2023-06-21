@@ -96,7 +96,7 @@ function Cart()
   }
 
   return (
-    <main className='container mx-auto my-10 px-6'>
+    <main className='container mx-auto my-10 px-6 mb-10 flex-1'>
         {
           cart.length > 0 ?
           (

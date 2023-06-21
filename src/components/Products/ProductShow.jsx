@@ -99,7 +99,7 @@ function ProductShow()
   if(loading) return(<Spinner/>);
 
   return (
-    <div className='container mx-auto px-4'>
+    <div className='container mx-auto px-4 mb-10 flex-1'>
       {
         !loading ?
         (

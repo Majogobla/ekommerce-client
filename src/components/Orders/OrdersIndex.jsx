@@ -26,7 +26,7 @@ function OrdersIndex()
   []);
 
   return (
-    <main className='container mx-auto my-10 px-6'>
+    <main className='container mx-auto my-10 px-6 mb-10 flex-1'>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
         {
           orders.map(order =>
