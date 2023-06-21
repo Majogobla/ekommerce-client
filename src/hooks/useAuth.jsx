@@ -13,16 +13,17 @@ export const useAuth = ({middleware, url}) =>
       {
         headers: 
         {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${localStorage.getItem('AUTH_TOKEN')}`
         }
       }
     )
     .then(res => res.data)
     .catch(error => 
     {
+      localStorage.removeItem('AUTH_TOKEN');
       throw Error(error?.response?.data?.errors);
-    })
-  );
+    }
+  ));
 
   const login = async (user, setErrors) =>
   {
@@ -82,18 +83,18 @@ export const useAuth = ({middleware, url}) =>
       navigate(url);
     }
 
-    if(middleware === 'auth' && error)
+    if(middleware === 'auth' && error || !token)
     {
       navigate('/login');
     }
   },
-  [user, error]);
+  [user, error, token]);
 
   return{
     login,
     register,
     logout,
     user,
-    error
+    error,
   }
 }
