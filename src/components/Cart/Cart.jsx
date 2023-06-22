@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import useCart from '../../hooks/useCart';
 import { formatPrice } from '../../helpers';
 import Swal from 'sweetalert2';
-import axios from 'axios';
+import axiosClient from '../../config/axios';
 
 function Cart() 
 {
@@ -75,8 +75,7 @@ function Cart()
 
     try 
     {
-      const url = 'http://localhost:8000/api/orders';
-      await axios.post(url, newOrder);
+      await axiosClient.post('/api/orders', newOrder);
 
       Swal.fire(
         'Order completed!',

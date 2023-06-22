@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosClient from '../../config/axios';
 import Swal from 'sweetalert2';
 import useCart from '../../hooks/useCart';
 import { formatPrice } from '../../helpers';
@@ -28,9 +28,7 @@ function ProductShow()
 
       if(id)
       {
-        const url = `http://localhost:8000/api/product/${id}`;
-
-        const result = await axios.get(url);
+        const result = await axiosClient(`/api/product/${id}`);
 
         if(result.data.length > 0)
         {

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import axiosClient from "../../config/axios";
 import axios from "axios";
 import { FaTwitter, FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
 
@@ -8,7 +9,7 @@ function ContactUsView() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/users");
+        const response = await axiosClient("/api/users");
         const allUsers = response.data;
         const filteredUsers = allUsers.filter((user) => user.role_id === 3);
         setDeveloperUsers(filteredUsers);
@@ -24,11 +25,11 @@ function ContactUsView() {
     <div className="flex-1 bg-indigo-100 py-8">
       <div className="container mx-auto px-4 h-full">
         <h2 className="text-center text-3xl font-bold mb-4">Contact Us</h2>
-        <p className="text-2xl text-center p-12 mb-12 bg-white">
-            <h1 className="text-3xl font-bold mb-2 cursor-pointer hover:text-red-500">Team #5</h1>
-          Development team in the construction of the eKommerce system for the
-          final Laravel project.
-        </p>
+        <div>
+          <h1 className="text-3xl font-bold mb-2 cursor-pointer hover:text-red-500 text-center">Team #5</h1>
+
+          <p className="text-2xl text-center p-12 mb-12 bg-white">Development team in the construction of the eKommerce system for the final Laravel project.</p>
+        </div>
 
         <div className="grid grid-cols-2 gap-6 m-12">
           {developerUsers.map((user) => (

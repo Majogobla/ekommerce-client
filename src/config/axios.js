@@ -6,7 +6,8 @@ const axiosClient = axios.create(
     headers:
     {
       'Accept': 'application/json',
-      'X-Requested-With': 'XMLHttpRequest'
+      'X-Requested-With': 'XMLHttpRequest',
+      Authorization: `Bearer ${localStorage.getItem('AUTH_TOKEN')}`,
     },
     withCredentials: true,
   }
