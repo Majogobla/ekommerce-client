@@ -21,7 +21,7 @@ function ContactUsView() {
   }, []);
 
   return (
-    <div className=" h-screen bg-indigo-100 py-8">
+    <div className="flex-1 bg-indigo-100 py-8">
       <div className="container mx-auto px-4 h-full">
         <h2 className="text-center text-3xl font-bold mb-4">Contact Us</h2>
         <p className="text-2xl text-center p-12 mb-12 bg-white">
