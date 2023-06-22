@@ -31,6 +31,7 @@ export const useAuth = ({middleware, url}) =>
     {
       const { data } = await axiosClient.post('/api/login', user);
       localStorage.setItem('AUTH_TOKEN', data.token);
+      axiosClient.defaults.headers.Authorization = `Bearer ${data.token}`;
       setErrors([]);
       await mutate();
     } 
