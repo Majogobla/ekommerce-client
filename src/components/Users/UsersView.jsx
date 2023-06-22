@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import axiosClient from "../../config/axios";
-import axios from "axios";
 import { FaTwitter, FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
 
 function ContactUsView() {
