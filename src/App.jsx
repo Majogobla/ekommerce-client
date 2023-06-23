@@ -7,10 +7,13 @@ import Cart from "./components/Cart/Cart";
 import OrdersIndex from "./components/Orders/OrdersIndex";
 import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
-
-import { CartProvider } from "./context/CartProvider";
 import { IndexView } from "./components/Layouts/IndexView";
 import UsersView from "./components/Users/UsersView";
+import UserEdit from "./components/Users/UserEdit";
+import UserShow from "./components/Users/UserShow";
+import UserEditImage from "./components/Users/UserEditImage";
+
+import { CartProvider } from "./context/CartProvider";
 
 function App() {
   return (
@@ -27,6 +30,9 @@ function App() {
             <Route path="/cart" element={<Cart />} />
             <Route path="/orders" element={<OrdersIndex />} />
             <Route path="/users" element={<UsersView/>}/>
+            <Route path="/user" element={<UserShow/>}/>
+            <Route path="/user/edit" element={<UserEdit/>}/>
+            <Route path="/user/image" element={<UserEditImage/>}/>
           </Route>
         </Routes>
       </CartProvider>

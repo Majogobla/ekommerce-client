@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useSWR from 'swr';
+import Swal from 'sweetalert2';
 import axiosClient from "../config/axios";
 
 export const useAuth = ({middleware, url}) =>
@@ -77,6 +78,65 @@ export const useAuth = ({middleware, url}) =>
     }
   }
 
+  const editUser = async (userEdited) =>
+  {
+    try 
+    {
+      await axiosClient.patch('/api/user', userEdited);
+      await mutate();
+
+      Swal.fire(
+        'Ok',
+        'You information has been updated',
+        'success'
+      );
+    } 
+    catch (error) 
+    {
+      Swal.fire(
+        {
+          icon: 'error',
+          title: 'Error',
+          text: 'Something went wrong!'
+        }
+      );
+    }
+    finally
+    {
+      navigate('/user');
+    }
+  }
+
+  const editImage = async (image) =>
+  {
+    try 
+    {
+      const {data} = await axiosClient.post('/api/user', image);
+      
+      await mutate();
+
+      Swal.fire(
+        'Ok',
+        data.message,
+        'success'
+      );
+    } 
+    catch (error) 
+    {
+      Swal.fire(
+        {
+          icon: 'error',
+          title: 'Error',
+          text: 'Something went wrong!'
+        }
+      );
+    }
+    finally
+    {
+      navigate('/user');
+    }
+  }
+
   useEffect(() =>
   {
     if(middleware === 'guest' && url && user)
@@ -102,5 +162,7 @@ export const useAuth = ({middleware, url}) =>
     logout,
     user,
     error,
+    editUser,
+    editImage,
   }
 }
