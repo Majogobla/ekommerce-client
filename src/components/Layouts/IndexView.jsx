@@ -77,6 +77,7 @@ export const IndexView = () => {
   {
     if(selectedCategory !== null)
     {
+      // eslint-disable-next-line no-unused-vars
       const filteredProducts = product.filter(
         (product) => product.category === selectedCategory
       );
