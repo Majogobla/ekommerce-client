@@ -107,7 +107,7 @@ function Cart()
                   cart.map(product =>
                   (
                     <div key={product.id} className='flex flex-col md:flex-row gap-6 items-center'>
-                      <div className='w-full md:w-1/5  h-32 overflow-hidden'>
+                      <div className=' flex items-center justify-center w-full md:w-1/5  h-32 overflow-hidden'>
                         <img src={`http://localhost:8000/storage/${product.image}`} alt="image product" />
                       </div>
 

@@ -91,7 +91,7 @@ function ProductShow()
       'success'
     )
 
-    navigate("/cart");
+    navigate("/products");
   }
 
   if(loading) return(<Spinner/>);
