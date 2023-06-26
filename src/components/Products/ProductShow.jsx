@@ -15,6 +15,7 @@ function ProductShow()
   const [quantity, setQuantity] = useState(1);
   const [total, setTotal] = useState(0);
   const [edit, setEdit] = useState(false);
+  const [error, setErrror] = useState(false);
 
   const { cart, addProduct } = useCart();
 
@@ -28,13 +29,23 @@ function ProductShow()
 
       if(id)
       {
-        const result = await axiosClient(`/api/product/${id}`);
-
-        if(result.data.length > 0)
+        try 
         {
-          setProduct(result.data[0]);
-          setStock(result.data[0].stock);
-          setTotal(result.data[0].price);
+          const result = await axiosClient(`/api/product/${id}`);
+
+          if(result.data.length > 0)
+          {
+            setProduct(result.data[0]);
+            setStock(result.data[0].stock);
+            setTotal(result.data[0].price);
+          }
+          else
+          {
+            setErrror(true);
+          }
+        } catch (error) 
+        {
+          setErrror(true);
         }
       }
 
@@ -95,6 +106,7 @@ function ProductShow()
   }
 
   if(loading) return(<Spinner/>);
+  if(error) return(<p className='flex-1 text-4xl font-black uppercase text-indigo-800 text-center mt-10'>Product not found</p>);
 
   return (
     <div className='container mx-auto px-4 mb-10 flex-1'>
