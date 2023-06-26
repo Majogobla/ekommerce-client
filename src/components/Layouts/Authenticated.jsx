@@ -48,7 +48,7 @@ function Authenticated()
               </svg>
             </Link>
 
-            <p className="text-white font-bold text-sm uppercase">{user?.name}</p>
+            <Link to="/user" className="text-white uppercase py-1 px-3 hover:bg-gray-400 hover:text-black cursor-pointer transition-colors font-bold rounded text-center">{user?.name}</Link>
 
             <button
               type="button"

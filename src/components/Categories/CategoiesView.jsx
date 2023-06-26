@@ -1,7 +1,7 @@
-/* eslint-disable react/prop-types */
 import ProductCard from "../Products/ProductCard";
 
-function CategoriesView({ categoryId, categories, products }) {
+function CategoriesView({ categoryId, categories, products }) 
+{
   const selectedCategory = categories.find((category) => category.id === categoryId);
 
   const filteredProducts = selectedCategory

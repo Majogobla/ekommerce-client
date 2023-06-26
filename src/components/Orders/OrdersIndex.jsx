@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axiosClient from "../../config/axios";
 import OrderCard from "./OrderCard";
 
 function OrdersIndex() 
@@ -12,7 +12,8 @@ function OrdersIndex()
     {
       try 
       {
-        const result = await axios.get('http://localhost:8000/api/orders');
+        const result = await axiosClient('/api/orders');
+        
         setOrders(result.data);
       } 
       catch (error) 

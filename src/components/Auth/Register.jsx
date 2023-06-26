@@ -13,7 +13,7 @@ function Register()
   const confirmedRef = createRef();
 
   const [errors, setErrors] = useState([]);
-  const {register} = useAuth({middleware: 'guest', url: '/register'});
+  const {register} = useAuth({middleware: 'guest', url: '/'});
 
   const handleSubmit = async e =>
   {

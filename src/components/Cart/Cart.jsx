@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import useCart from '../../hooks/useCart';
 import { formatPrice } from '../../helpers';
 import Swal from 'sweetalert2';
-import axios from 'axios';
+import axiosClient from '../../config/axios';
 
 function Cart() 
 {
@@ -75,8 +75,7 @@ function Cart()
 
     try 
     {
-      const url = 'http://localhost:8000/api/orders';
-      await axios.post(url, newOrder);
+      await axiosClient.post('/api/orders', newOrder);
 
       Swal.fire(
         'Order completed!',
@@ -108,7 +107,7 @@ function Cart()
                   cart.map(product =>
                   (
                     <div key={product.id} className='flex flex-col md:flex-row gap-6 items-center'>
-                      <div className='w-full md:w-1/5  h-32 overflow-hidden'>
+                      <div className=' flex items-center justify-center w-full md:w-1/5  h-32 overflow-hidden'>
                         <img src={`http://localhost:8000/storage/${product.image}`} alt="image product" />
                       </div>
 
@@ -165,6 +164,6 @@ function Cart()
         }
     </main>
   )
-};
+}
 
 export default Cart;

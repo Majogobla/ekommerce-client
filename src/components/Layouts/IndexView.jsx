@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import axios from "axios";
+import axiosClient from "../../config/axios";
 
 import ProductCard from "../Products/ProductCard";
 import CategoiesView from "../Categories/CategoiesView";
@@ -15,29 +15,31 @@ export const IndexView = () => {
   const [product, setProduct] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
-  // eslint-disable-next-line no-unused-vars
-  const [noProductsFound, setNoProductsFound] = useState(false)
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const ProductUrl = "http://localhost:8000/api/products";
-      const CategoriesUrl = "http://localhost:8000/api/categories";
-
-      const [productResp, categoriesResp] = await Promise.all([
-        axios.get(ProductUrl),
-        axios.get(CategoriesUrl),
+  useEffect(() => 
+  {
+    const fetchData = async () => 
+    {
+      const [productResp, categoriesResp] = await Promise.all(
+      [
+        axiosClient('/api/products'),
+        axiosClient('/api/categories'),
       ]);
+
       setProduct(productResp.data);
       setCategories(categoriesResp.data);
     };
+
     fetchData();
   }, []);
 
-  const handleCategoryChange = (categoryId) => {
+  const handleCategoryChange = (categoryId) => 
+  {
     setSelectedCategory(categoryId);
   };
 
-  const carouselSettings = {
+  const carouselSettings = 
+  {
     dots: true,
     speed: 500,
     slidesToShow: 4,
@@ -45,16 +47,19 @@ export const IndexView = () => {
     showThumbs: false,
   };
 
-  const renderProductCarouselItems = () => {
+  const renderProductCarouselItems = () => 
+  {
     const maxProductToShow = 8;
     const productsToShow = product.slice(0, maxProductToShow);
 
     const items = [];
 
-    for (let i = 0; i < productsToShow.length; i += 4) {
+    for (let i = 0; i < productsToShow.length; i += 4) 
+    {
       const productGroup = productsToShow.slice(i, i + 4);
 
-      const productGroupItems = productGroup.map((product) => (
+      const productGroupItems = productGroup.map((product) => 
+      (
         <ProductCard key={product.id} product={product} />
       ));
 
@@ -68,13 +73,14 @@ export const IndexView = () => {
     return items;
   };
 
-  useEffect(() => {
-    if(selectedCategory !== null){
+  useEffect(() => 
+  {
+    if(selectedCategory !== null)
+    {
+      // eslint-disable-next-line no-unused-vars
       const filteredProducts = product.filter(
         (product) => product.category === selectedCategory
       );
-
-      setNoProductsFound(filteredProducts.length === 0);
     }
   
   }, [selectedCategory,product])

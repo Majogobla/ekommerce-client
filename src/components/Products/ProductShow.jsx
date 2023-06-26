@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosClient from '../../config/axios';
 import Swal from 'sweetalert2';
 import useCart from '../../hooks/useCart';
 import { formatPrice } from '../../helpers';
@@ -15,6 +15,7 @@ function ProductShow()
   const [quantity, setQuantity] = useState(1);
   const [total, setTotal] = useState(0);
   const [edit, setEdit] = useState(false);
+  const [error, setErrror] = useState(false);
 
   const { cart, addProduct } = useCart();
 
@@ -28,15 +29,23 @@ function ProductShow()
 
       if(id)
       {
-        const url = `http://localhost:8000/api/product/${id}`;
-
-        const result = await axios.get(url);
-
-        if(result.data.length > 0)
+        try 
         {
-          setProduct(result.data[0]);
-          setStock(result.data[0].stock);
-          setTotal(result.data[0].price);
+          const result = await axiosClient(`/api/product/${id}`);
+
+          if(result.data.length > 0)
+          {
+            setProduct(result.data[0]);
+            setStock(result.data[0].stock);
+            setTotal(result.data[0].price);
+          }
+          else
+          {
+            setErrror(true);
+          }
+        } catch (error) 
+        {
+          setErrror(true);
         }
       }
 
@@ -93,10 +102,11 @@ function ProductShow()
       'success'
     )
 
-    navigate("/cart");
+    navigate("/products");
   }
 
   if(loading) return(<Spinner/>);
+  if(error) return(<p className='flex-1 text-4xl font-black uppercase text-indigo-800 text-center mt-10'>Product not found</p>);
 
   return (
     <div className='container mx-auto px-4 mb-10 flex-1'>
